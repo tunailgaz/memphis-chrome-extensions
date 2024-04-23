@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Youtube Custom Shortcuts",
+  "description": "My custom shortcuts for youtube",
+  "version": "1.0",
+  "action": {
+  },
+  "content_scripts": [
+    {
+      "js": ["scripts/youtube_custom_shortcuts.js"],
+      "matches": [
+        "https://www.youtube.com/*",
+        "https://youtube.com/*"
+      ]
+    }
+  ]
+}
