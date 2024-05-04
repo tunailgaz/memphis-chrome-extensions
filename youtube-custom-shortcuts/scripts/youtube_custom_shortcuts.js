@@ -20,7 +20,7 @@ function addShortcuts(play_btn, sound_btn) {
     } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
       play_btn.focus()
     } else if (event.key === ' ') {
-      // play_btn.focus()
+      sound_btn.focus() // To prevent 'space' key from toggling play/pause
       play_btn.click()
     }
   });
