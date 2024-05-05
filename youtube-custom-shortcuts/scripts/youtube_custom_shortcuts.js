@@ -39,7 +39,7 @@ window.addEventListener('load', () => {
   let sound_btn = getSoundButton()
   let search_btn = getSearchButton()
   if (play_btn && sound_btn && search_btn) {
-    addShortcuts(play_btn, sound_btn);
+    addShortcuts(play_btn, sound_btn, search_btn);
   } else {
     let timeout_count = 0;
     let interval = setInterval(() => {
@@ -49,7 +49,7 @@ window.addEventListener('load', () => {
       search_btn = getSearchButton()
       if (play_btn && sound_btn && search_btn) {
         clearInterval(interval)
-        addShortcuts(play_btn, sound_btn)
+        addShortcuts(play_btn, sound_btn, search_btn)
       }
       if (timeout_count > 10) {
         console.log('Could not find play button and sound button')
