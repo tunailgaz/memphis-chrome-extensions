@@ -12,17 +12,24 @@ function getSoundButton() {
   return document.querySelector('.ytp-mute-button.ytp-button');
 }
 
-function addShortcuts(play_btn, sound_btn) {
+function getSearchButton() {
+  return document.querySelector('input#search.ytd-searchbox');
+}
+
+function addShortcuts(play_btn, sound_btn, search_btn) {
   console.log('Adding custom shortcuts to YouTube video player')
   document.addEventListener('keydown', function (event) {
-    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-      sound_btn.focus()
-    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
-      play_btn.focus()
-    } else if (event.key === ' ') {
-      sound_btn.focus() // To prevent 'space' key from toggling play/pause
-      play_btn.click()
+    if(search_btn !== document.activeElement) {
+      if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+        sound_btn.focus()
+      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        play_btn.focus()
+      } else if (event.key === ' '){
+        sound_btn.focus() // To prevent 'space' key from toggling play/pause
+        play_btn.click()
+      }
     }
+
   });
 }
 
@@ -30,7 +37,8 @@ window.addEventListener('load', () => {
   console.log('Youtube custom shortcuts script loaded')
   let play_btn = getPlayButton()
   let sound_btn = getSoundButton()
-  if (play_btn && sound_btn) {
+  let search_btn = getSearchButton()
+  if (play_btn && sound_btn && search_btn) {
     addShortcuts(play_btn, sound_btn);
   } else {
     let timeout_count = 0;
@@ -38,7 +46,8 @@ window.addEventListener('load', () => {
       timeout_count++;
       play_btn = getPlayButton()
       sound_btn = getSoundButton()
-      if (play_btn && sound_btn) {
+      search_btn = getSearchButton()
+      if (play_btn && sound_btn && search_btn) {
         clearInterval(interval)
         addShortcuts(play_btn, sound_btn)
       }
