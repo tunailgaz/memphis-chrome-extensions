@@ -38,10 +38,10 @@ window.addEventListener('load', () => {
       timeout_count++;
       play_btn = getPlayButton()
       sound_btn = getSoundButton()
-      // if (play_btn && sound_btn) {
-      //   clearInterval(interval)
-      //   addShortcuts(play_btn, sound_btn)
-      // }
+      if (play_btn && sound_btn) {
+        clearInterval(interval)
+        addShortcuts(play_btn, sound_btn)
+      }
       if (timeout_count > 10) {
         console.log('Could not find play button and sound button')
         clearInterval(interval)
