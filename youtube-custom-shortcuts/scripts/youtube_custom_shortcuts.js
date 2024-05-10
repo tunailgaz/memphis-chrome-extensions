@@ -13,7 +13,7 @@ function getSoundButton() {
 }
 
 function getSearchButton() {
-  return document.querySelector('input#search.ytd-searchbox');
+  return document.querySelector('form#search-form input#search');
 }
 
 function addShortcuts(play_btn, sound_btn, search_btn) {
@@ -29,7 +29,6 @@ function addShortcuts(play_btn, sound_btn, search_btn) {
         play_btn.click()
       }
     }
-
   });
 }
 
@@ -51,7 +50,7 @@ window.addEventListener('load', () => {
         clearInterval(interval)
         addShortcuts(play_btn, sound_btn, search_btn)
       }
-      if (timeout_count > 10) {
+      if (timeout_count > 30) {
         console.log('Could not find play button and sound button')
         clearInterval(interval)
       }
