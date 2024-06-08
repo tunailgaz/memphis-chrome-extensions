@@ -35,7 +35,6 @@ function createShortcutsObserver() {
           // If the user presses the left or right arrow or space, focus the play button
           else if (['ArrowLeft', 'ArrowRight', ' '].includes(event.key)) {
             playButton.focus();
-            // If the user presses space, also focus the play button
             if (event.key === ' ') playButton.focus();
           }
         }
