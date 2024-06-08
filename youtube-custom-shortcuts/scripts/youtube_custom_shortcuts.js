@@ -35,7 +35,10 @@ function createShortcutsObserver() {
           // If the user presses the left or right arrow or space, focus the play button
           else if (['ArrowLeft', 'ArrowRight', ' '].includes(event.key)) {
             playButton.focus();
-            if (event.key === ' ') playButton.focus();
+            if (event.key === ' ') {
+              // "k" key is used to play/pause the video, so we need to simulate it
+              document.dispatchEvent(new KeyboardEvent('keypress', {which: 'k'.charCodeAt(0)}));
+            }
           }
         }
       });
