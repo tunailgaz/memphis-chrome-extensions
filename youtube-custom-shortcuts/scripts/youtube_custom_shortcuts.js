@@ -7,6 +7,7 @@
 function createShortcutsObserver() {
   // Flag to check if the shortcuts have already been added
   let shortcutsAdded = false;
+  const play_pause_event = new KeyboardEvent('keypress', {which: 'k'.charCodeAt(0)});
 
   /**
    * The observer checks for changes in the document.
@@ -37,7 +38,7 @@ function createShortcutsObserver() {
             playButton.focus();
             if (event.key === ' ') {
               // "k" key is used to play/pause the video, so we need to simulate it
-              document.dispatchEvent(new KeyboardEvent('keypress', {which: 'k'.charCodeAt(0)}));
+              playButton.dispatchEvent(play_pause_event);
             }
           }
         }
