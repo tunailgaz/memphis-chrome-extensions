@@ -36,7 +36,7 @@ function createShortcutsObserver() {
           else if (['ArrowLeft', 'ArrowRight', ' '].includes(event.key)) {
             playButton.focus();
             // If the user presses space, also click the play button
-            if (event.key === ' ') playButton.click();
+            if (event.key === ' ') playButton.focus();
           }
         }
       });
