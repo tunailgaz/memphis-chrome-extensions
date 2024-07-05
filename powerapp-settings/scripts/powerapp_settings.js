@@ -1,4 +1,6 @@
-const DEFAULT_VOLUME_PERCENTAGE = 5;
+const DEFAULT_DAY_VOLUME = 15;
+const DEFAULT_NIGHT_VOLUME = 5;
+const NIGHT_HOUR = 23;
 
 const sliderBar = document.querySelector('#header .bottomLine .volumeContainer .bar');
 const sliderHandle = sliderBar.querySelector('span.ui-slider-handle');
@@ -46,6 +48,12 @@ function setVolume(targetVolume) {
   }
 }
 
+// Determine the default volume based on the current time
+function getDefaultVolume() {
+  const currentHour = new Date().getHours();
+  return currentHour >= NIGHT_HOUR || currentHour < 6 ? DEFAULT_NIGHT_VOLUME : DEFAULT_DAY_VOLUME;
+}
+
 // Function to create an observer for adding shortcuts
 function createShortcutsObserver() {
   let shortcutsAdded = false;
@@ -62,8 +70,9 @@ function createShortcutsObserver() {
 
       shortcutsAdded = true;
       observer.disconnect();
-      console.log(`Powerapp Settings: Adding shortcuts, setting volume to ${DEFAULT_VOLUME_PERCENTAGE}, disabling observer`);
-      setVolume(DEFAULT_VOLUME_PERCENTAGE);
+      const defaultVolume = getDefaultVolume();
+      console.log(`Powerapp Settings: Adding shortcuts, setting volume to ${defaultVolume}, disabling observer`);
+      setVolume(defaultVolume);
     }
   });
 
