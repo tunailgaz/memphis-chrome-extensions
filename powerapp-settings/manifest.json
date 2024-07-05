@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "powerapp settings",
+  "description": "Sets default volume and some custom shortcuts for powerapp.com.com.tr",
+  "version": "1.0",
+  "action": {
+  },
+  "content_scripts": [
+    {
+      "js": ["scripts/powerapp_settings.js"],
+      "matches": [
+        "https://www.powerapp.com.tr/*"
+      ]
+    }
+  ]
+}
