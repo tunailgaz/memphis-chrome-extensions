@@ -4,6 +4,7 @@ const NIGHT_HOUR = 23;
 
 const sliderBar = document.querySelector('#header .bottomLine .volumeContainer .bar');
 const sliderHandle = sliderBar.querySelector('span.ui-slider-handle');
+const playButton = document.querySelector('#playerContainer .btnPlay')
 
 // Function to simulate a keyboard event
 function triggerKeyboardEvent(element, key) {
@@ -63,10 +64,16 @@ function createShortcutsObserver() {
 
     if (sliderHandle) {
       document.addEventListener('keydown', (event) => {
+        event.preventDefault();
         if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
           sliderHandle.focus();
         }
+        // play pause for space bar
+        if (event.key === ' ') {
+          playButton.click();
+        }
       });
+
 
       shortcutsAdded = true;
       observer.disconnect();
