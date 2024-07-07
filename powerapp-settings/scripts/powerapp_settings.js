@@ -64,12 +64,12 @@ function createShortcutsObserver() {
 
     if (sliderHandle) {
       document.addEventListener('keydown', (event) => {
-        event.preventDefault();
         if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
           sliderHandle.focus();
         }
         // play pause for space bar
         if (event.key === ' ') {
+          event.preventDefault();
           playButton.click();
         }
       });
