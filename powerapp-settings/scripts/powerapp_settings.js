@@ -70,7 +70,7 @@ function createShortcutsObserver() {
         // play pause for space bar
         if (event.key === ' ') {
           event.preventDefault();
-          playButton.click();
+          playButton?.click();
         }
       });
 
