@@ -7,7 +7,7 @@
 function createShortcutsObserver() {
   // Flag to check if the shortcuts have already been added
   let shortcutsAdded = false;
-  const play_pause_event = new KeyboardEvent('keypress', {which: 'k'.charCodeAt(0)});
+  const play_pause_event = new KeyboardEvent('keypress', { which: 'k'.charCodeAt(0) });
 
   /**
    * The observer checks for changes in the document.
@@ -50,11 +50,38 @@ function createShortcutsObserver() {
       // Disconnect the observer as we don't need it anymore
       observer.disconnect();
       console.log('YouTube Custom Shortcuts: Adding shortcuts, disabling observer')
+      createPopupObserver()
     }
   });
 
   // Start observing the document for changes
-  observer.observe(document, {childList: true, subtree: true});
+  observer.observe(document, { childList: true, subtree: true });
+}
+
+// after some time the popup is created, so we need to create an observer for it
+// popup asks "are you still watching?" and "do you want to unsubscribe?" we say "yes" to both
+function createPopupObserver() {
+  const popupObserver = new MutationObserver(() => {
+    const confirmDialog = document.querySelector('yt-confirm-dialog-renderer.ytd-popup-container[dialog="true"]');
+    if (confirmDialog) {
+      const buttons = confirmDialog.querySelectorAll('button');
+      for (let button of buttons) {
+        if (button.innerText === 'Unsubscribe') {
+          button.click();
+          setTimeout(() => {
+            confirmDialog.remove();
+          }, 250);
+        }
+        if (button.innerText === 'Yes') {
+          button.click();
+          setTimeout(() => {
+            confirmDialog.remove();
+          }, 250);
+        }
+      }
+    }
+  });
+  popupObserver.observe(document, { childList: true, subtree: true });
 }
 
 // Call the function to start the observer
