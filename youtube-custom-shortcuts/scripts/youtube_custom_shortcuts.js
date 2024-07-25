@@ -4,10 +4,35 @@
  * Once the shortcuts are added, it disconnects the observer to prevent unnecessary checks.
  * The shortcuts are only added once per page load.
  */
+
+function triggerKeyboardEvent(element, key) {
+  // find the key code for the key, it can be any key
+  let keyCode = key === 'k' ?  75 : key.charCodeAt(0);
+  console.log('keyCode, key', key.charCodeAt(0), key)
+  const keydownEvent = new KeyboardEvent('keydown', {
+    key,
+    code: key,
+    keyCode,
+    which: keyCode,
+    bubbles: true,
+    cancelable: true
+  });
+
+  const keyupEvent = new KeyboardEvent('keyup', {
+    key,
+    code: key,
+    keyCode,
+    which: keyCode,
+    bubbles: true,
+    cancelable: true
+  });
+
+  element.dispatchEvent(keydownEvent);
+  element.dispatchEvent(keyupEvent);
+}
 function createShortcutsObserver() {
   // Flag to check if the shortcuts have already been added
   let shortcutsAdded = false;
-  const play_pause_event = new KeyboardEvent('keypress', { which: 'k'.charCodeAt(0) });
 
   /**
    * The observer checks for changes in the document.
@@ -36,10 +61,6 @@ function createShortcutsObserver() {
           // If the user presses the left or right arrow or space, focus the play button
           else if (['ArrowLeft', 'ArrowRight', ' '].includes(event.key)) {
             playButton.focus();
-            if (event.key === ' ') {
-              // "k" key is used to play/pause the video, so we need to simulate it
-              playButton.dispatchEvent(play_pause_event);
-            }
           }
         }
       });
@@ -49,8 +70,13 @@ function createShortcutsObserver() {
 
       // Disconnect the observer as we don't need it anymore
       observer.disconnect();
+
       console.log('YouTube Custom Shortcuts: Adding shortcuts, disabling observer')
-      createPopupObserver()
+      setInterval(() => {
+        console.log('YouTube Custom Shortcuts: Triggering play/pause event');
+        triggerKeyboardEvent(playButton, 'k');
+        triggerKeyboardEvent(playButton, 'k');
+      }, 1200000);
     }
   });
 
@@ -58,31 +84,6 @@ function createShortcutsObserver() {
   observer.observe(document, { childList: true, subtree: true });
 }
 
-// after some time the popup is created, so we need to create an observer for it
-// popup asks "are you still watching?" and "do you want to unsubscribe?" we say "yes" to both
-function createPopupObserver() {
-  const popupObserver = new MutationObserver(() => {
-    const confirmDialog = document.querySelector('yt-confirm-dialog-renderer.ytd-popup-container[dialog="true"]');
-    if (confirmDialog) {
-      const buttons = confirmDialog.querySelectorAll('button');
-      for (let button of buttons) {
-        if (button.innerText === 'Unsubscribe') {
-          button.click();
-          setTimeout(() => {
-            confirmDialog.remove();
-          }, 250);
-        }
-        if (button.innerText === 'Yes') {
-          button.click();
-          setTimeout(() => {
-            confirmDialog.remove();
-          }, 250);
-        }
-      }
-    }
-  });
-  popupObserver.observe(document, { childList: true, subtree: true });
-}
 
 // Call the function to start the observer
 createShortcutsObserver();
