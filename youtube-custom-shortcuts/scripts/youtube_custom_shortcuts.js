@@ -72,22 +72,29 @@ function createShortcutsObserver() {
       // Disconnect the observer as we don't need it anymore
       observer.disconnect();
 
-      const every_minute_ms = 60000;
-      console.log('YouTube Custom Shortcuts: Adding shortcuts, disabling observer')
-      setInterval(() => {
-        if (playButton.getAttribute('title')?.startsWith('Pause')) {
-          console.log('YouTube Custom Shortcuts: Triggering play/pause event');
-          triggerKeyboardEvent(playButton, 'k');
-          setTimeout(() => {
-            triggerKeyboardEvent(playButton, 'k');
-          }, 50);
-        }
-      }, every_minute_ms * 25);
+
+      // avoid "Are you still watching?" message, by triggering play/pause every 20 minutes
+      avoidAreYouStillWatching();
     }
   });
 
   // Start observing the document for changes
   observer.observe(document, { childList: true, subtree: true });
+}
+
+function avoidAreYouStillWatching() {
+  const every_minute_ms = 60000;
+  const playButton = document.querySelector('.ytp-play-button.ytp-button');
+  setInterval(() => {
+    // only trigger if the video is playing, to avoid starting a video that was paused
+    if (playButton.getAttribute('title')?.startsWith('Pause')) {
+      console.log('YouTube Custom Shortcuts: Triggering play/pause event');
+      triggerKeyboardEvent(playButton, 'k');
+      setTimeout(() => {
+        triggerKeyboardEvent(playButton, 'k');
+      }, 25);
+    }
+  }, every_minute_ms * 20);
 }
 
 
