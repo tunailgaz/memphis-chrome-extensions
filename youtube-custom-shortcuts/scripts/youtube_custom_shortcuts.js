@@ -72,6 +72,7 @@ function createShortcutsObserver() {
       // Disconnect the observer as we don't need it anymore
       observer.disconnect();
 
+      const every_minute_ms = 60000;
       console.log('YouTube Custom Shortcuts: Adding shortcuts, disabling observer')
       setInterval(() => {
         if (playButton.getAttribute('title')?.startsWith('Pause')) {
@@ -81,7 +82,7 @@ function createShortcutsObserver() {
             triggerKeyboardEvent(playButton, 'k');
           }, 50);
         }
-      }, 1200000);
+      }, every_minute_ms * 25);
     }
   });
 
