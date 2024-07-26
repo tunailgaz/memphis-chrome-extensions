@@ -7,7 +7,7 @@
 
 function triggerKeyboardEvent(element, key) {
   // find the key code for the key, it can be any key
-  let keyCode = key === 'k' ?  75 : key.charCodeAt(0);
+  let keyCode = key === 'k' ? 75 : key.charCodeAt(0);
   console.log('keyCode, key', key.charCodeAt(0), key)
   const keydownEvent = new KeyboardEvent('keydown', {
     key,
@@ -30,6 +30,7 @@ function triggerKeyboardEvent(element, key) {
   element.dispatchEvent(keydownEvent);
   element.dispatchEvent(keyupEvent);
 }
+
 function createShortcutsObserver() {
   // Flag to check if the shortcuts have already been added
   let shortcutsAdded = false;
@@ -73,9 +74,13 @@ function createShortcutsObserver() {
 
       console.log('YouTube Custom Shortcuts: Adding shortcuts, disabling observer')
       setInterval(() => {
-        console.log('YouTube Custom Shortcuts: Triggering play/pause event');
-        triggerKeyboardEvent(playButton, 'k');
-        triggerKeyboardEvent(playButton, 'k');
+        if (playButton.getAttribute('title')?.startsWith('Pause')) {
+          console.log('YouTube Custom Shortcuts: Triggering play/pause event');
+          triggerKeyboardEvent(playButton, 'k');
+          setTimeout(() => {
+            triggerKeyboardEvent(playButton, 'k');
+          }, 50);
+        }
       }, 1200000);
     }
   });
