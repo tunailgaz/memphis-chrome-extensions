@@ -61,7 +61,11 @@ function createShortcutsObserver() {
           }
           // If the user presses the left or right arrow or space, focus the play button
           else if (['ArrowLeft', 'ArrowRight', ' '].includes(event.key)) {
-            playButton.focus();
+            // todo check cursor is not in input field
+            // alert(document.activeElement.parentElement.getAttribute('slot') !== 'input');
+            if (document.activeElement.parentElement.getAttribute('slot') !== 'input') {
+              playButton.focus();
+            }
           }
         }
       });
